@@ -1,0 +1,11 @@
+apiVersion: skaffold/v2beta8
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - "./k8s/*"
+build:
+  artifacts:
+    - image: ghcr.io/wofood/efood_admins
+      docker:
+        dockerfile: prod.Dockerfile

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admins-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: efood
+      service: admins
+  template:
+    metadata:
+      labels:
+        app: efood
+        service: admins
+        sidecar.istio.io/inject: "true"
+        version: "1"
+    spec:
+      imagePullSecrets:
+        - name: ghcr
+      containers:
+      - name: admins
+        image: ghcr.io/wofood/efood_admins
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "250m"
+          limits:
+            memory: "1G"
+            cpu: "500m"
+        ports:
+          - name: admins
+            protocol: TCP
+            containerPort: 3000
+        envFrom:
+          - configMapRef:
+              name: efood-config
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 3
+          periodSeconds: 3
+          failureThreshold: 2
