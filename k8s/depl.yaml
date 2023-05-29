@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: admins-depl
+  name: auth-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: efood
-      service: admins
+      app: rekbers
+      service: auth
   template:
     metadata:
       labels:
-        app: efood
-        service: admins
+        app: rekbers
+        service: auth
         sidecar.istio.io/inject: "true"
         version: "1"
     spec:
       imagePullSecrets:
         - name: ghcr
       containers:
-      - name: admins
-        image: ghcr.io/wofood/efood_admins
+      - name: auth
+        image: ghcr.io/wofood/rekbers_auth
         resources:
           requests:
             memory: "500Mi"
@@ -29,12 +29,12 @@ spec:
             memory: "1G"
             cpu: "500m"
         ports:
-          - name: admins
+          - name: auth
             protocol: TCP
             containerPort: 3000
         envFrom:
           - configMapRef:
-              name: efood-config
+              name: rekbers-config
         readinessProbe:
           httpGet:
             path: /

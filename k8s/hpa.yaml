@@ -1,12 +1,12 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: admins-hpa
+  name: auth-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: admins-depl
+    name: auth-depl
   minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 50

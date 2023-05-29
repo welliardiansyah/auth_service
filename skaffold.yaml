@@ -6,6 +6,6 @@ deploy:
       - "./k8s/*"
 build:
   artifacts:
-    - image: ghcr.io/wofood/efood_admins
+    - image: ghcr.io/wofood/rekbers_admins
       docker:
         dockerfile: prod.Dockerfile
